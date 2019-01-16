@@ -15,33 +15,51 @@
       <h3>Please login below.</h3>
         <input id="username" type="text" placeholder="Username" required="required" />
         <input id="password" type="password" placeholder="Password" required="required" />
-        <button id="logIn" class="btn btn-primary btn-block btn-large" onclick="logIn()">Log In</button>
+        <button id="logInButton" class="btn btn-primary btn-block btn-large" onclick="logIn()">Log In</button>
+        <button class="btn btn-primary btn-block btn-large" onclick="signUp()">Sign Up</button>
         <a href="about.html"><button class="btn btn-primary btn-block btn-large">About</button></a>
         <a href="contact.html"><button class="btn btn-primary btn-block btn-large">Contact Us</button></a>
-        <p id="response2"><strong><i>Error: Both a username and a password must be entered to proceed.</i> <br><br>Please try again.<p>
-        <p id="response1"><strong><i>Error: Credentials are not valid.</strong></i> <br><br>Existing Users: Please check your inputs and try again.<br><br>New Accounts: Unfortunately, Pseudoname is not accepting new accounts at this time. Please try again at a later date.</p>
+        <p class="responses" id="noCredentialsResponse"><strong><i>Error: Both a username and a password must be entered to proceed.</i> <br><br>Please try again.<p>
+        <p class="responses" id="invalidCredentialsResponse"><strong><i>Error: Credentials are not valid.</strong></i> <br><br>Please check your inputs and try again.</p>
+        <p class="responses" id="signUpResponse"><strong><i>Error: No Sign Ups are currently allowed.</strong></i> <br><br>Unfortunately, Pseudoname is not accepting new accounts at this time. Please try again at a later date.</p>
     </div>
   </body>
 </html>
 
 <script type="text/javascript">
 function logIn() {
+    hideAllResponses();
     var username = document.getElementById("username");
     var password = document.getElementById("password");
-    var response1 = document.getElementById("response1");
-    var response2 = document.getElementById("response2");
-
-    response1.style.visibility = "hidden";
-    response1.style.display = "none";
-    response2.style.visibility = "hidden";
-    response2.style.display = "none";
+    var noCredentialsResponse = document.getElementById("noCredentialsResponse");
+    var invalidCredentialsResponse = document.getElementById("invalidCredentialsResponse");
 
     if(username.value && password.value){
-      document.getElementById("response1").style.visibility = 'visible';
-      response1.style.display = "block";
+      invalidCredentialsResponse.style.visibility = 'visible';
+      invalidCredentialsResponse.style.display = "block";
     }else{
-      document.getElementById("response2").style.visibility = 'visible';
-      response2.style.display = "block";
+      noCredentialsResponse.style.visibility = 'visible';
+      noCredentialsResponse.style.display = "block";
     }
+}
+
+function signUp(){
+  hideAllResponses();
+  var signUpResponse = document.getElementById("signUpResponse");
+  signUpResponse.style.display = "block";
+  signUpResponse.style.visibility = "visible";
+}
+
+function hideAllResponses(){
+  var noCredentialsResponse = document.getElementById("noCredentialsResponse");
+  var invalidCredentialsResponse = document.getElementById("invalidCredentialsResponse");
+  var signUpResponse = document.getElementById("signUpResponse");
+
+  noCredentialsResponse.style.visibility = "hidden";
+  noCredentialsResponse.style.display = "none";
+  invalidCredentialsResponse.style.visibility = "hidden";
+  invalidCredentialsResponse.style.display = "none";
+  signUpResponse.style.visibility = "hidden";
+  signUpResponse.style.display = "none";
 }
 </script>
