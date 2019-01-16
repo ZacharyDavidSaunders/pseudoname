@@ -2,64 +2,26 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Pseudoname: Log In</title>
+    <title>Pseudoname</title>
      <link rel="stylesheet" type="text/css" href="style.css">
+     <script src="script.js"></script>
   </head>
   <body>
     <div>
-      <a href="index.html"><h1>Pseudoname</h1><a/>
+      <a href="index.html"><h1>Pseudoname</h1></a>
       <h2>Because your email deserves protection too!</h2>
     </div>
     <hr>
-    <div id="loginContainer">
-      <h3>Please login below.</h3>
-        <input id="username" type="text" placeholder="Username" required="required" />
-        <input id="password" type="password" placeholder="Password" required="required" />
-        <button id="logInButton" class="btn btn-primary btn-block btn-large" onclick="logIn()">Log In</button>
-        <button class="btn btn-primary btn-block btn-large" onclick="signUp()">Sign Up</button>
+    <div id="AliasContainer">
+      <h3>Use the form below to create and delete email aliases</h3>
+        <input id="realEmail" type="email" placeholder="Your real email" required="required" />
+        <input id="alias" type="email" placeholder="Your email alias (@pseudoname.io)" required="required"/>
+        <p id="domainIdentification">@pseudoname.io</p>
+        <button id="createAliasButton" class="btn btn-primary btn-block btn-large" onclick="createAlias()">Create Alias</button>
+        <button id="deleteAliasButton" class="btn btn-primary btn-block btn-large" onclick="deleteAlias()">Delete Alias</button>
         <a href="about.html"><button class="btn btn-primary btn-block btn-large">About</button></a>
         <a href="contact.html"><button class="btn btn-primary btn-block btn-large">Contact Us</button></a>
-        <p class="responses" id="noCredentialsResponse"><strong><i>Error: Both a username and a password must be entered to proceed.</i> <br><br>Please try again.<p>
-        <p class="responses" id="invalidCredentialsResponse"><strong><i>Error: Credentials are not valid.</strong></i> <br><br>Please check your inputs and try again.</p>
-        <p class="responses" id="signUpResponse"><strong><i>Error: No Sign Ups are currently allowed.</strong></i> <br><br>Unfortunately, Pseudoname is not accepting new accounts at this time. Please try again at a later date.</p>
+        <p class="responses" id="response"></p>
     </div>
   </body>
 </html>
-
-<script type="text/javascript">
-function logIn() {
-    hideAllResponses();
-    var username = document.getElementById("username");
-    var password = document.getElementById("password");
-    var noCredentialsResponse = document.getElementById("noCredentialsResponse");
-    var invalidCredentialsResponse = document.getElementById("invalidCredentialsResponse");
-
-    if(username.value && password.value){
-      invalidCredentialsResponse.style.visibility = 'visible';
-      invalidCredentialsResponse.style.display = "block";
-    }else{
-      noCredentialsResponse.style.visibility = 'visible';
-      noCredentialsResponse.style.display = "block";
-    }
-}
-
-function signUp(){
-  hideAllResponses();
-  var signUpResponse = document.getElementById("signUpResponse");
-  signUpResponse.style.display = "block";
-  signUpResponse.style.visibility = "visible";
-}
-
-function hideAllResponses(){
-  var noCredentialsResponse = document.getElementById("noCredentialsResponse");
-  var invalidCredentialsResponse = document.getElementById("invalidCredentialsResponse");
-  var signUpResponse = document.getElementById("signUpResponse");
-
-  noCredentialsResponse.style.visibility = "hidden";
-  noCredentialsResponse.style.display = "none";
-  invalidCredentialsResponse.style.visibility = "hidden";
-  invalidCredentialsResponse.style.display = "none";
-  signUpResponse.style.visibility = "hidden";
-  signUpResponse.style.display = "none";
-}
-</script>

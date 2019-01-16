@@ -16,10 +16,6 @@ h1{
   margin-left: -2%;
 }
 
-#loginContainer {
-  margin-top: 30px;
-}
-
 h4 {
   display: inline;
 }
@@ -32,12 +28,12 @@ h2{
 
 h3{
   font-size: 25px;
-  margin-left:11%;
+  margin-left:-8%;
   color: white;
 }
 
 button{
-  margin-top: 5px;
+  margin-top: -15px;
   padding: 10px;
   margin-left: 15px;
   font-size: 20px;
@@ -49,15 +45,15 @@ button{
   box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
 }
 
-#logInButton{
-  margin-left: 3%;
+i{
+  color: red;
+  padding-left: 10px;
 }
 
-#goToLoginPage{
-  margin-left: 13.5%;
-  color:red;
-  margin-top: 20px;
-  margin-bottom: 35px;
+hr {
+  width: 30%;
+  margin-left: 70px;
+  color: white;
 }
 
 a {
@@ -80,6 +76,10 @@ input {
 	margin: -150px 0 0 -150px;
 	width:300px;
 	height:300px;
+}
+
+#alias{
+  width: 35%;
 }
 
 input {
@@ -121,15 +121,14 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
   box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
 }
 
-i{
-  color: red;
-  padding-left: 10px;
-}
-
-hr {
-  width: 30%;
-  margin-left: 70px;
+#domainIdentification{
+  position:relative;
+  bottom: 40px;
+  left: 355px;
   color: white;
+  font-size: 20px;
+  margin: 0;
+  width: 180px;
 }
 
 .question{
@@ -170,4 +169,27 @@ hr {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
   box-shadow: inset 0 -5px 45px rgba(100,100,100,0.2), 0 1px 1px rgba(255,255,255,0.2);
   text-align: center;
+}
+
+#AliasContainer {
+  margin-top: 30px;
+}
+
+#createAliasButton{
+  margin-left: -1%;
+}
+
+#goToMainPage{
+  margin-left: 13.5%;
+  color:red;
+  margin-top: 20px;
+  margin-bottom: 35px;
+}
+
+.positiveResponse{
+  color: green;
+}
+
+.negativeResponse{
+  color:red;
 }
