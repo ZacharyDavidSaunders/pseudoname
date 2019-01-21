@@ -1,13 +1,22 @@
 function createAlias(){
   hideAllResponses();
   if(verifyInput()){
-    const Http = new XMLHttpRequest();
-    const url='https://jsonplaceholder.typicode.com/posts';
-    Http.open("GET", "https://bypasscors.herokuapp.com/api/?url=https://forwardmx.io/api/aliases");
-    Http.send();
-    Http.onreadystatechange=(e)=>{
-      console.log(Http.responseText)
-    }
+    var realEmailInput = document.getElementById("realEmail");
+    var aliasInput = document.getElementById("alias");
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+             alert(this.responseText);
+         }else{
+            showResponse("Error: Something's wrong", "Something went wrong when creating your alias. Please try again later", false);
+         }
+    };
+    xhttp.open("POST", "https://forwardmx.io/api/alias/create", true);
+    xhttp.setRequestHeader("key","S7CIbakmt8jXSSz0Svjm1End67Bwh828sUs");
+    xhttp.setRequestHeader("domain","pseudoname.io");
+    xhttp.setRequestHeader("alias",aliasInput.value);
+    xhttp.setRequestHeader("destination",realEmailInput.value);
+    xhttp.send();
   }
 }
 
