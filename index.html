@@ -16,15 +16,20 @@
       <h2>Because your email deserves protection too!</h2>
     </div>
     <hr>
+    <div>
+      <a href="about.html"><button id="index-nav-offset"class="navigation">About</button></a>
+      <a href="contact.html"><button class="navigation">Contact Us</button></a>
+      <a href="privacy.html"><button class="navigation">Privacy Policy</button></a>
+      <a href="terms.html"><button class="navigation">Terms of Service</button></a>
+    </div>
+    <hr>
     <div id="AliasContainer">
       <h3>Use the form below to create and delete email aliases</h3>
         <input id="realEmail" type="email" placeholder="Your real email address" required="required" />
         <input id="alias" type="email" placeholder="Your email alias (@pseudoname.io)" required="required"/>
         <p id="domainIdentification">@pseudoname.io</p>
-        <button id="createAliasButton" class="btn btn-primary btn-block btn-large" onclick="createAlias()">Create Alias</button>
-        <button id="deleteAliasButton" class="btn btn-primary btn-block btn-large" onclick="deleteAlias()">Delete Alias</button>
-        <a href="about.html"><button class="btn btn-primary btn-block btn-large">About</button></a>
-        <a href="contact.html"><button class="btn btn-primary btn-block btn-large">Contact Us</button></a>
+        <button id="createAliasButton" onclick="createAlias()">Create Alias</button>
+        <button id="deleteAliasButton" onclick="deleteAlias()">Delete Alias</button>
         <p class="responses" id="response"></p>
     </div>
   </body>
