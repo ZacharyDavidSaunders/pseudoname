@@ -67,6 +67,7 @@ a {
 button:hover{
   background-color: rgba(48, 37, 48, .7);
   color: white;
+  cursor: pointer;
 }
 
 input {
