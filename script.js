@@ -1,5 +1,5 @@
 var corsProxy = "https://cors-anywhere.herokuapp.com/";
-var version = "Version: 1.7.3_Public";
+var version = "Version: 1.7.4_Public";
 
 function createAlias(){
   hideAllResponses();
