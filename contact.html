@@ -4,18 +4,35 @@
     <meta charset="utf-8">
     <title>Pseudoname: Contact Us</title>
      <link rel="stylesheet" type="text/css" href="style.css">
+     <script src="script.js"></script>
      <link rel="shortcut icon" type="image/x-icon" href="imgs/favicon-32x32.png"/>
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132887033-1"></script>
+     <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-132887033-1');</script>
   </head>
-  <body>
+  <body onload="displayVersion();">
     <div>
-      <a href="index.html"><h1>Pseudoname</h1><a/>
+      <h1>Pseudoname</h1>
+      <p id="version"></p>
       <h2>Because your email deserves protection too!</h2>
     </div>
     <hr>
     <div>
-      <h3>How To Contact Us</h3>
-      <p id="ContactUs">Please use the following email to contact us:<br><br><a href="mailto:contactus@Pseudoname.io" target="_blank">ContactUs@pseudoname.io</a><br><br>We will do our best to respond within 72 business hours.<br>We look forward to speaking with you!</p>
-      <a href="index.html"><button id="goToMainPage" class="btn btn-primary btn-block btn-large">Go to Main Page</button></a>
+      <div id="upperNav">
+        <a href="index.html"><button class="navigation">Home</button></a>
+        <a href="about.html"><button class="navigation">About</button></a>
+        <a href="contact.html"><button class="navigation">Contact Us</button></a>
+      </div>
+      <div id="lowerNav">
+        <a href="privacy.html"><button class="navigation">Privacy Policy</button></a>
+        <a href="terms.html"><button class="navigation">Terms of Service</button></a>
+        <a href="canary.html"><button class="navigation">Warrant Canary</button></a>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <h3 id="contactLabel">How To Contact Us</h3>
+      <p id="ContactUs">Please use the following email to contact us:<br><br><a href="mailto:support@pseudoname.io" target="_blank">support@pseudoname.io</a><br><br>We will do our best to respond within 72 business hours.<br>We look forward to speaking with you!</p>
     </div>
   </body>
 </html>

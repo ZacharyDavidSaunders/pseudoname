@@ -1,4 +1,5 @@
 var corsProxy = "https://cors-anywhere.herokuapp.com/";
+var version = "Version: 1.7.4.1_Evaluation";
 
 function createAlias(){
   hideAllResponses();
@@ -9,7 +10,7 @@ function createAlias(){
     xhttp.onreadystatechange = function() {
          if (this.readyState == 4 && this.status == 200) {
              if(this.responseText.includes("Alias created")){
-               showResponse("Success!","Your alias has been created! <br><br>You may now use "+aliasInput.value+"@pseudoname.io, all emails sent to that address will be forwarded to "+realEmailInput.value+".<br><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i>", 1);
+               showResponse("Success!","Your alias has been created! <br><br>Please wait 60 seconds before sending emails to the alias. After the small delay, all emails sent to "+aliasInput.value+"@pseudoname.io will be automatically forwarded to "+realEmailInput.value+".<br><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i>", 1);
              }else if(this.responseText.includes("You can only define the same source once per domain")){
                showResponse("Error: Alias Unavailable","That alias has already been taken by someone else. Please choose a different alias and try again.", 2);
              }else{
@@ -80,4 +81,16 @@ function hideAllResponses(){
   var responseElement = document.getElementById("response");
   responseElement.style.display = "none";
   responseElement.style.visibility = "hidden";
+}
+
+function displayVersion(){
+  var versionElement = document.getElementById("version");
+  versionElement.innerHTML = version;
+}
+
+function displayDate(){
+  var currentDate = document.getElementById("currentDate");
+  var timestamp = new Date();
+  currentDate.innerHTML = "Last Updated: " + timestamp;
+  currentDate.style = "text-align: center;";
 }
