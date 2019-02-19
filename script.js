@@ -1,4 +1,4 @@
-var version = "v2.0";
+var version = "v2.1";
 var api = 'https://pseudoname-api.herokuapp.com';
 var pseudonameRepo = 'https://github.com/ZacharyDavidSaunders/pseudoname/';
 var pseudonameApiRepo = 'https://github.com/ZacharyDavidSaunders/PseudonameAPI/'
@@ -15,8 +15,8 @@ function createAlias(){
              var data = this.responseText;
              var json = JSON.parse(data);
              var message = json['message'];
-             if(message === 'Alias has been created.'){
-                 showResponse("Success!","Your alias has been created! <br><br>Please wait 60 seconds before sending emails to the alias. After the small delay, all emails sent to "+aliasInput.value+"@pseudoname.io will be automatically forwarded to "+realEmailInput.value+".<br><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i>", 1);
+             if(message === 'Alias has been created. Please wait 60 seconds before sending emails to the alias. Doing so ensures that the all systems have been updated and emails are not lost.'){
+                 showResponse("Success!","Your alias has been created! <br><br>Please wait 60 seconds before sending emails to the alias. After the small delay, all emails sent to "+aliasInput.value+"@pseudoname.io will be automatically forwarded to "+realEmailInput.value+".", 1);
              }else if(message === 'Error: Duplicate alias request refused.'){
                  showResponse("Error: Alias Already Taken", "The alias you requested is already in use. Please choose another.", 2);
              }else{
@@ -48,8 +48,8 @@ function deleteAlias(){
                 var json = JSON.parse(data);
                 var message = json['message'];
                 if(message === 'Alias has been deleted.'){
-                    showResponse("Success!","Your alias has been deleted!", 1);
-                }else if(message === 'Alias has not yet been registered and thus may not be deleted.'){
+                    showResponse("Success!","Your alias has been deleted.", 1);
+                }else if(message === 'Error: Alias has not yet been registered and thus may not be deleted.'){
                     showResponse("Error: Alias Not Yet Registered", "The alias you requested to delete does not exist. Feel free to create it!", 2);
                 }else if (message === 'Error: Deletion denied. The provided alias is not owned by the provided email.'){
                     showResponse('Error: Deletion denied.', 'According to our records, you do not own the alias you wish to delete. Please enter the alias\' corresponding email address to delete it.', 2);
@@ -96,7 +96,7 @@ function showResponse(responseHeader,responseText,statusCode){
   var responseElement = document.getElementById("response");
 
   if(statusCode == 1){
-    responseElement.innerHTML = "<strong class=positiveResponse>"+responseHeader+"</strong><br><br>"+responseText+"<br><br>"+
+    responseElement.innerHTML = "<strong class=positiveResponse>"+responseHeader+"</strong><br><br>"+responseText+"<br><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i><br><br>"+
     "<a href='https://ko-fi.com/M4M4P3CB' target='_blank'><img height='36' style='border:0px;height:36px;' src='imgs/SupportButton.jpg' border='0' alt='Support Pseudoname'/></a>";
   }else if(statusCode == 2){
     responseElement.innerHTML = "<strong class=negativeResponse>"+responseHeader+"</strong><br><br>"+responseText;
