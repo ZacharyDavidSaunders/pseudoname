@@ -1,12 +1,10 @@
 ![Pseudoname_API][logo]
 
-<p align="center">
-[![Pseudoname](https://img.shields.io/website-Online-Offline-limeGreen-red/https/pseudoname.io.svg?label=Pseudoname%20Website&style=flat)](https://pseudoname.io) [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)][Mozilla Public License 2.0]
-</p>
 
-<p align="center">
+[![Pseudoname](https://img.shields.io/website-Online-Offline-limeGreen-red/https/pseudoname.io.svg?label=Pseudoname%20Website&style=flat)](https://pseudoname.io) [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)][Mozilla Public License 2.0]
+
+
 ## [Click me to go to the site!][Pseudoname site]
-</p>
 
 ## What is "Pseudoname"?
 
