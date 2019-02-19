@@ -46,6 +46,11 @@ Pull requests are welcome and will be reviewed and merged in a case-by-case basi
 
 ## Release Notes
 You'll find information about each release below.
+
+#### Version 2.1
+* Updated expected API responses.
+* Tweaked the how the status codes work.
+
 #### Version 2.0 [Public Release]
 * Connected to PseudonameAPI.
 * Added links to repos.
