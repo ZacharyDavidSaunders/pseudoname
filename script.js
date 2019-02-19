@@ -1,5 +1,5 @@
-var corsProxy = "https://cors-anywhere.herokuapp.com/";
-var version = "Version: 1.0[BETA]";
+var version = "v2.0";
+var api = 'https://pseudoname-api.herokuapp.com';
 
 function createAlias(){
   hideAllResponses();
@@ -84,10 +84,28 @@ function hideAllResponses(){
 }
 
 function displayVersion(){
-  var versionElement = document.getElementById("version");
-  versionElement.innerHTML = version;
+    var xhttp = new XMLHttpRequest();
+    var apiVersion;
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            var data = this.responseText;
+            var json = JSON.parse(data);
+            var message = json['message'];
+            console.log(message);
+            apiVersion = message.substring(message.indexOf("PseudonameAPI")+13,message.indexOf("PseudonameAPI")+17) || '?';
+            var versionIdentification = document.getElementById("versionIdentification");
+            versionIdentification.innerHTML = "Site: "+version+ " / API: "+apiVersion;
+        }else if(this.readyState == 4){
+            showResponse("Error: Something's Wrong", "PseudonameAPI is unavailable. If this issue persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
+        }
+    };
+    xhttp.open("GET", api+'/',true);
+    xhttp.send();
 }
 
 function displayDate(){
-
+    var currentDate = document.getElementById("currentDate");
+    var timestamp = new Date();
+    currentDate.innerHTML = "Last Updated: " + timestamp;
+    currentDate.style = "text-align: center;";
 }
