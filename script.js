@@ -1,5 +1,5 @@
 var corsProxy = "https://cors-anywhere.herokuapp.com/";
-var version = "Version: 1.7.4.1_Evaluation";
+var version = "Version: 1.0[BETA]";
 
 function createAlias(){
   hideAllResponses();
@@ -89,8 +89,5 @@ function displayVersion(){
 }
 
 function displayDate(){
-  var currentDate = document.getElementById("currentDate");
-  var timestamp = new Date();
-  currentDate.innerHTML = "Last Updated: " + timestamp;
-  currentDate.style = "text-align: center;";
+
 }
