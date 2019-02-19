@@ -1,5 +1,7 @@
 var version = "v2.0";
 var api = 'https://pseudoname-api.herokuapp.com';
+var pseudonameRepo = 'https://github.com/ZacharyDavidSaunders/pseudoname/';
+var pseudonameApiRepo = 'https://github.com/ZacharyDavidSaunders/PseudonameAPI/'
 
 function createAlias(){
   hideAllResponses();
@@ -8,14 +10,17 @@ function createAlias(){
     var aliasInput = document.getElementById("alias");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
+        console.log(this.responseText);
          if (this.readyState == 4 && this.status == 200) {
-             if(this.responseText.includes("Alias created")){
-               showResponse("Success!","Your alias has been created! <br><br>Please wait 60 seconds before sending emails to the alias. After the small delay, all emails sent to "+aliasInput.value+"@pseudoname.io will be automatically forwarded to "+realEmailInput.value+".<br><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i>", 1);
-             }else if(this.responseText.includes("You can only define the same source once per domain")){
-               showResponse("Error: Alias Unavailable","That alias has already been taken by someone else. Please choose a different alias and try again.", 2);
+             var data = this.responseText;
+             var json = JSON.parse(data);
+             var message = json['message'];
+             if(message === 'Alias has been created.'){
+                 showResponse("Success!","Your alias has been created! <br><br>Please wait 60 seconds before sending emails to the alias. After the small delay, all emails sent to "+aliasInput.value+"@pseudoname.io will be automatically forwarded to "+realEmailInput.value+".<br><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i>", 1);
+             }else if(message === 'Error: Duplicate alias request refused.'){
+                 showResponse("Error: Alias Already Taken", "The alias you requested is already in use. Please choose another.", 2);
              }else{
-               showResponse("Error: Unknown API Response", "An unexpected error occured. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
-               console.log(this.responseText);
+                 showResponse("Error: Unknown API Response", "An unexpected error occurred. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
              }
          }else if (this.readyState == 4){
            showResponse("Error: Something's Wrong", "Something went wrong when creating your alias. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
@@ -23,18 +28,43 @@ function createAlias(){
            showResponse("Loading", "Please wait...", 3);
          }
     };
-    xhttp.open("POST", corsProxy.concat("https://forwardmx.io/api/alias/create?"+
-    "&key=S7CIbakmt8jXSSz0Svjm1End67Bwh828sUs"+
-    "&domain=pseudoname.io"+
-    "&destination="+realEmailInput.value+
-    "&alias="+aliasInput.value), true);
+    xhttp.open("GET", api+'/add/?'+
+    "alias="+aliasInput.value +
+    "&realEmail="+realEmailInput.value, true);
     xhttp.send();
   }
 }
 
 function deleteAlias(){
-  hideAllResponses();
-  showResponse("How To Delete An Alias:", "In order to prevent abuse, we have temporarily disabled automatic alias deletion. If you'd like to remove an alias, please <a href=\"contact.html\">contact us</a> and we will happily assist you.", 3);
+    hideAllResponses();
+    if(verifyInput()){
+        var realEmailInput = document.getElementById("realEmail");
+        var aliasInput = document.getElementById("alias");
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            console.log(this.responseText);
+            if (this.readyState == 4 && this.status == 200) {
+                var data = this.responseText;
+                var json = JSON.parse(data);
+                var message = json['message'];
+                if(message === 'Alias has been deleted.'){
+                    showResponse("Success!","Your alias has been deleted!", 1);
+                }else if(message === 'Alias has not yet been registered and thus may not be deleted.'){
+                    showResponse("Error: Alias Not Yet Registered", "The alias you requested to delete does not exist. Feel free to create it!", 2);
+                }else if (message === 'Error: Deletion denied. The provided alias is not owned by the provided email.'){
+                    showResponse('Error: Deletion denied.', 'According to our records, you do not own the alias you wish to delete. Please enter the alias\' corresponding email address to delete it.', 2);
+                }
+            }else if (this.readyState == 4){
+                showResponse("Error: Something's Wrong", "Something went wrong when deleting your alias. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
+            }else{
+                showResponse("Loading", "Please wait...", 3);
+            }
+        };
+        xhttp.open("GET", api+'/delete/?'+
+            "alias="+aliasInput.value +
+            "&realEmail="+realEmailInput.value, true);
+        xhttp.send();
+    }
 }
 
 function verifyInput(){
@@ -94,7 +124,7 @@ function displayVersion(){
             console.log(message);
             apiVersion = message.substring(message.indexOf("PseudonameAPI")+13,message.indexOf("PseudonameAPI")+17) || '?';
             var versionIdentification = document.getElementById("versionIdentification");
-            versionIdentification.innerHTML = "Site: "+version+ " / API: "+apiVersion;
+            versionIdentification.innerHTML = "Site: "+version+ " / API: "+apiVersion+'<br><br>We are open source! <br><br>Repos are linked below:<br><br><a href='+pseudonameRepo+' target=\'_blank\'>Pseudoname</a><br><br><a href='+pseudonameApiRepo+' target=\'_blank\'>PseudonameAPI</a>';
         }else if(this.readyState == 4){
             showResponse("Error: Something's Wrong", "PseudonameAPI is unavailable. If this issue persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
         }

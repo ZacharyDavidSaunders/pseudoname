@@ -1,8 +1,12 @@
 ![Pseudoname_API][logo]
 
+<p align="center">
 [![Pseudoname](https://img.shields.io/website-Online-Offline-limeGreen-red/https/pseudoname.io.svg?label=Pseudoname%20Website&style=flat)](https://pseudoname.io) [![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)][Mozilla Public License 2.0]
- 
+</p>
+
+<p align="center">
 ## [Click me to go to the site!][Pseudoname site]
+</p>
 
 ## What is "Pseudoname"?
 
@@ -40,11 +44,15 @@ PseudonameAPI is the backend service that runs the Pseudoname site. It too is op
 Pull requests are welcome and will be reviewed and merged in a case-by-case basis. If a Pull Request is urgent, please send an email to contactus@pseudoname.io
 
 ## To-Do's
- - Integrate with PseudonameAPI — *(Release 2.0)*
  - Add an edit alias feature.
 
 ## Release Notes
 You'll find information about each release below.
+#### Version 2.0 [Public Release]
+* Connected to PseudonameAPI.
+* Added links to repos.
+* Added `/` API call to wake up dyno quickly.
+
 #### Version 1.0 [Beta]
 * Built the MVP version of the site. This version has the site directly communicate with ForwardMX and thus leaves the API key exposed. This version will soon be replaced with a more secure version that connects to PseudonameAPI. *(When this migration occurs, the API key and all aliases will be purged, and users will be notified that the Beta has ended).*
 
