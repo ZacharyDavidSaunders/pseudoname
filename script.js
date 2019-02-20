@@ -1,4 +1,4 @@
-var version = "v2.1";
+var version = "v2.2";
 var api = 'https://pseudoname-api.herokuapp.com';
 var pseudonameRepo = 'https://github.com/ZacharyDavidSaunders/pseudoname/';
 var pseudonameApiRepo = 'https://github.com/ZacharyDavidSaunders/PseudonameAPI/'
@@ -16,7 +16,7 @@ function createAlias(){
              var json = JSON.parse(data);
              var message = json['message'];
              if(message === 'Alias has been created. Please wait 60 seconds before sending emails to the alias. Doing so ensures that the all systems have been updated and emails are not lost.'){
-                 showResponse("Success!","Your alias has been created! <br><br>Please wait 60 seconds before sending emails to the alias. After the small delay, all emails sent to "+aliasInput.value+"@pseudoname.io will be automatically forwarded to "+realEmailInput.value+".", 1);
+                 showResponse("Success!","Your alias has been created! <br><br>Please wait 90 seconds before sending emails to the alias. After the small delay, all emails sent to \""+aliasInput.value+"@pseudoname.io\" will be automatically forwarded to \""+realEmailInput.value+"\".<br><br>", 3);
              }else if(message === 'Error: Duplicate alias request refused.'){
                  showResponse("Error: Alias Already Taken", "The alias you requested is already in use. Please choose another.", 2);
              }else{
@@ -100,6 +100,10 @@ function showResponse(responseHeader,responseText,statusCode){
     "<a href='https://ko-fi.com/M4M4P3CB' target='_blank'><img height='36' style='border:0px;height:36px;' src='imgs/SupportButton.jpg' border='0' alt='Support Pseudoname'/></a>";
   }else if(statusCode == 2){
     responseElement.innerHTML = "<strong class=negativeResponse>"+responseHeader+"</strong><br><br>"+responseText;
+  }else if(statusCode == 3){
+      responseElement.innerHTML = "<strong class=positiveResponse>"+responseHeader+"</strong><br><br>"+responseText+"Time Remaining:<br><p id=timer></p><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i><br><br>"+
+          "<a href='https://ko-fi.com/M4M4P3CB' target='_blank'><img height='36' style='border:0px;height:36px;' src='imgs/SupportButton.jpg' border='0' alt='Support Pseudoname'/></a>";
+      countdown(90);
   }else{
     responseElement.innerHTML = "<strong class=neutralResponse>"+responseHeader+"</strong><br><br>"+responseText;
   }
@@ -138,4 +142,34 @@ function displayDate(){
     var timestamp = new Date();
     currentDate.innerHTML = "Last Updated: " + timestamp;
     currentDate.style = "text-align: center;";
+}
+
+function countdown(seconds) {
+    var timer = document.getElementById("timer");
+
+    setInterval(calculate, 1000);
+
+    function calculate() {
+
+        var timeRemaining = seconds-1;
+
+        if (timeRemaining >= 0) {
+
+            seconds = parseInt(timeRemaining);
+
+            if(timeRemaining == 0){
+                timer.style.color = 'chartreuse';
+                timer.innerHTML = 'All set ✓';
+            }else{
+                if(timeRemaining < 90 && timeRemaining >= 60){
+                    timer.style.color = 'red';
+                }else if(timeRemaining < 60 && timeRemaining >= 30){
+                    timer.style.color = 'orange';
+                }else{
+                    timer.style.color = 'yellow';
+                }
+                timer.innerHTML = (seconds + ' seconds');
+            }
+        }
+    }
 }
