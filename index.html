@@ -36,7 +36,23 @@
         <p id="domainIdentification">@pseudoname.io</p>
         <button id="createAliasButton" onclick="createAlias()">Create Alias</button>
         <button id="deleteAliasButton" onclick="deleteAlias()">Delete Alias</button>
-        <p class="responses" id="response"></p>
+        <div id="responseDiv">
+          <strong><p id="responseHeader"></p></strong>
+          <p id="responseMessage"></p>
+          <div id="timerDiv">
+            <p>Time Remaining:</p>
+            <p id="timer"></p>
+          </div>
+          <button id="copyAliasButton" onclick="copyAliasToClipboard()">Systems Ready! 👍🏻<br>Click Me To Copy Alias</button>
+          <div id="donationDiv">
+            <p>
+              <i>
+              If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:
+              </i>
+            </p>
+            <a href='https://ko-fi.com/M4M4P3CB' target='_blank'><img height='36' style='border:0px;height:36px;' src='imgs/SupportButton.jpg' border='0' alt='Support Pseudoname'/></a>
+          </div>
+        </div>
     </div>
     <div id="versionIdentificationDiv">
       <p id="versionIdentification"></p>

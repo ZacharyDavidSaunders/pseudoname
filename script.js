@@ -3,6 +3,25 @@ var api = 'https://pseudoname-api.herokuapp.com';
 var pseudonameRepo = 'https://github.com/ZacharyDavidSaunders/pseudoname/';
 var pseudonameApiRepo = 'https://github.com/ZacharyDavidSaunders/PseudonameAPI/'
 
+function displayVersion(){
+    var xhttp = new XMLHttpRequest();
+    var apiVersion;
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200){
+            var data = this.responseText;
+            var json = JSON.parse(data);
+            var message = json['message'];
+            apiVersion = message.substring(message.indexOf("PseudonameAPI")+13,message.indexOf("PseudonameAPI")+17) || '?';
+            var versionIdentification = document.getElementById("versionIdentification");
+            versionIdentification.innerHTML = "Site: "+version+ " / API: "+apiVersion+'<br><br>We are open source! <br><br>Repos are linked below:<br><br><a href='+pseudonameRepo+' target=\'_blank\'>Pseudoname</a><br><br><a href='+pseudonameApiRepo+' target=\'_blank\'>PseudonameAPI</a>';
+        }else if(this.readyState == 4){
+            showResponse("Error: Something's Wrong", "PseudonameAPI is unavailable. If this issue persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
+        }
+    };
+    xhttp.open("GET", api+'/',true);
+    xhttp.send();
+}
+
 function createAlias(){
   hideAllResponses();
   if(verifyInput()){
@@ -10,13 +29,12 @@ function createAlias(){
     var aliasInput = document.getElementById("alias");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
-        console.log(this.responseText);
          if (this.readyState == 4 && this.status == 200) {
              var data = this.responseText;
              var json = JSON.parse(data);
              var message = json['message'];
              if(message === 'Alias has been created. Please wait 60 seconds before sending emails to the alias. Doing so ensures that the all systems have been updated and emails are not lost.'){
-                 showResponse("Success!","Your alias has been created! <br><br>Please wait 90 seconds before sending emails to the alias. After the small delay, all emails sent to \""+aliasInput.value+"@pseudoname.io\" will be automatically forwarded to \""+realEmailInput.value+"\".<br><br>", 3);
+                 showResponse("Success!"," Your alias has been created. Please wait 60 seconds before sending emails to the alias. After the small delay, all emails sent to \""+aliasInput.value+"@pseudoname.io\" will be automatically forwarded to \""+realEmailInput.value+"\". A \"Copy Alias\" button will appear when the countdown has ended.", 3);
              }else if(message === 'Error: Duplicate alias request refused.'){
                  showResponse("Error: Alias Already Taken", "The alias you requested is already in use. Please choose another.", 2);
              }else{
@@ -25,7 +43,7 @@ function createAlias(){
          }else if (this.readyState == 4){
            showResponse("Error: Something's Wrong", "Something went wrong when creating your alias. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
          }else{
-           showResponse("Loading", "Please wait...", 3);
+           showResponse("Loading", "Please wait...", 4);
          }
     };
     xhttp.open("GET", api+'/add/?'+
@@ -42,7 +60,6 @@ function deleteAlias(){
         var aliasInput = document.getElementById("alias");
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
-            console.log(this.responseText);
             if (this.readyState == 4 && this.status == 200) {
                 var data = this.responseText;
                 var json = JSON.parse(data);
@@ -57,7 +74,7 @@ function deleteAlias(){
             }else if (this.readyState == 4){
                 showResponse("Error: Something's Wrong", "Something went wrong when deleting your alias. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
             }else{
-                showResponse("Loading", "Please wait...", 3);
+                showResponse("Loading", "Please wait...", 4);
             }
         };
         xhttp.open("GET", api+'/delete/?'+
@@ -78,7 +95,7 @@ function verifyInput(){
       if(!emailVerificationRegex.test(aliasInput.value.toLowerCase()) && !(aliasInput.value.includes('@'))){
         return true;
       }else{
-        showResponse("Error: Invalid Alias Email", "The alias email that you entered is invalid, you don't need to include the '@' character, nor any characters after it. Please try again.", 2);
+        showResponse("Error: Invalid Alias", "The alias that you entered is invalid, you don't need to include the '@' character, nor any characters after it. Please try again.", 2);
         return false;
       }
     }else{
@@ -86,90 +103,120 @@ function verifyInput(){
       return false;
     }
   }else{
-    showResponse("Error:", "Both a real email and an email alias must be entered to proceed.", 2);
+    showResponse("Error: Missing Information" , "Both a real email and an email alias must be entered to proceed.", 2);
     return false;
   }
   return true;
 }
 
 function showResponse(responseHeader,responseText,statusCode){
-  var responseElement = document.getElementById("response");
+  var responseDiv = document.getElementById('responseDiv');
+  var responseHeaderP = document.getElementById('responseHeader');
+  var responseMessageP = document.getElementById('responseMessage');
+  var donationDiv = document.getElementById('donationDiv');
+  var showDonation = false;
+  var showCopyAliasButton = false;
 
   if(statusCode == 1){
-    responseElement.innerHTML = "<strong class=positiveResponse>"+responseHeader+"</strong><br><br>"+responseText+"<br><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i><br><br>"+
-    "<a href='https://ko-fi.com/M4M4P3CB' target='_blank'><img height='36' style='border:0px;height:36px;' src='imgs/SupportButton.jpg' border='0' alt='Support Pseudoname'/></a>";
+      responseHeaderP.classList.add("positiveResponse");
+      showDonation = true;
   }else if(statusCode == 2){
-    responseElement.innerHTML = "<strong class=negativeResponse>"+responseHeader+"</strong><br><br>"+responseText;
+      responseHeaderP.classList.add("negativeResponse");
   }else if(statusCode == 3){
-      responseElement.innerHTML = "<strong class=positiveResponse>"+responseHeader+"</strong><br><br>"+responseText+"Time Remaining:<br><p id=timer></p><br><i>If you like Pseudoname and would like to keep the service free, please consider making a small donation via the button below:</i><br><br>"+
-          "<a href='https://ko-fi.com/M4M4P3CB' target='_blank'><img height='36' style='border:0px;height:36px;' src='imgs/SupportButton.jpg' border='0' alt='Support Pseudoname'/></a>";
-      countdown(90);
+      responseHeaderP.classList.add("positiveResponse");
+      countdown(60);
+      showDonation = true;
   }else{
-    responseElement.innerHTML = "<strong class=neutralResponse>"+responseHeader+"</strong><br><br>"+responseText;
+      responseHeaderP.class= "neutralResponse";
   }
-  responseElement.style.display = "block";
-  responseElement.style.visibility = "visible";
+  responseHeaderP.innerText = responseHeader;
+  responseMessageP.innerHTML = responseText;
+
+  responseDiv.style.display = "block";
+  responseDiv.style.visibility = "visible";
+  responseHeaderP.style.display = "block";
+  responseHeaderP.style.visibility = "visible";
+  responseMessageP.style.display = "block";
+  responseMessageP.style.visibility = "visible";
+
+  if(showDonation){
+      donationDiv.style.display = "block";
+      donationDiv.style.visibility = 'visible';
+  }
 }
 
 function hideAllResponses(){
-  var responseElement = document.getElementById("response");
-  responseElement.style.display = "none";
-  responseElement.style.visibility = "hidden";
-}
+    resetHeaderColor();
+    var elementsThatShouldBeHidden = ['responseDiv', 'responseHeader', 'responseMessage', 'timer', 'timerDiv', 'copyAliasButton', 'donationDiv'];
 
-function displayVersion(){
-    var xhttp = new XMLHttpRequest();
-    var apiVersion;
-    xhttp.onreadystatechange = function() {
-        if(this.readyState == 4 && this.status == 200){
-            var data = this.responseText;
-            var json = JSON.parse(data);
-            var message = json['message'];
-            console.log(message);
-            apiVersion = message.substring(message.indexOf("PseudonameAPI")+13,message.indexOf("PseudonameAPI")+17) || '?';
-            var versionIdentification = document.getElementById("versionIdentification");
-            versionIdentification.innerHTML = "Site: "+version+ " / API: "+apiVersion+'<br><br>We are open source! <br><br>Repos are linked below:<br><br><a href='+pseudonameRepo+' target=\'_blank\'>Pseudoname</a><br><br><a href='+pseudonameApiRepo+' target=\'_blank\'>PseudonameAPI</a>';
-        }else if(this.readyState == 4){
-            showResponse("Error: Something's Wrong", "PseudonameAPI is unavailable. If this issue persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
-        }
-    };
-    xhttp.open("GET", api+'/',true);
-    xhttp.send();
+    for(var i = 0; i < elementsThatShouldBeHidden.length; i++){
+      var element = document.getElementById(elementsThatShouldBeHidden[i]);
+      element.style.display = "none";
+      element.style.visibility = "hidden";
+    }
 }
 
 function displayDate(){
     var currentDate = document.getElementById("currentDate");
     var timestamp = new Date();
     currentDate.innerHTML = "Last Updated: " + timestamp;
-    currentDate.style = "text-align: center;";
 }
 
 function countdown(seconds) {
+    var copyAliasButton = document.getElementById('copyAliasButton');
     var timer = document.getElementById("timer");
+    var timerDiv = document.getElementById("timerDiv");
+
+    timer.style.display = "block";
+    timer.style.visibility = "visible";
+    timerDiv.style.display = "block";
+    timerDiv.style.visibility = "visible";
 
     setInterval(calculate, 1000);
-
     function calculate() {
-
         var timeRemaining = seconds-1;
-
         if (timeRemaining >= 0) {
-
-            seconds = parseInt(timeRemaining);
-
+            seconds = timeRemaining;
             if(timeRemaining == 0){
                 timer.style.color = 'chartreuse';
-                timer.innerHTML = 'All set ✓';
+                timer.innerHTML = '(0 seconds) All set ✓';
+                copyAliasButton.style.display = "block";
+                copyAliasButton.style.visibility = 'visible';
+                timer.style.display = "none";
+                timer.style.visibility = "hidden";
+                timerDiv.style.display = "none";
+                timerDiv.style.visibility = "hidden";
             }else{
-                if(timeRemaining < 90 && timeRemaining >= 60){
+                if(timeRemaining <= 60 && timeRemaining >= 45){
                     timer.style.color = 'red';
-                }else if(timeRemaining < 60 && timeRemaining >= 30){
+                }else if(timeRemaining < 45 && timeRemaining >= 30){
                     timer.style.color = 'orange';
-                }else{
+                }else if(timeRemaining < 30 && timeRemaining >= 15){
                     timer.style.color = 'yellow';
+                }else{
+                    timer.style.color = 'chartreuse';
                 }
                 timer.innerHTML = (seconds + ' seconds');
             }
         }
     }
+}
+
+function copyAliasToClipboard(){
+    var button = document.getElementById("copyAliasButton");
+    var dummyInput = document.createElement("input");
+    document.body.appendChild(dummyInput);
+    dummyInput.setAttribute('value', document.getElementById("alias").value + '@pseudoname.io');
+    dummyInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummyInput);
+    button.innerHTML = 'Copied! 🚀';
+    button.style.marginLeft = '34%';
+}
+
+function resetHeaderColor(){
+    var responseHeaderP = document.getElementById('responseHeader');
+    responseHeaderP.classList.remove("positiveResponse");
+    responseHeaderP.classList.remove("negativeResponse");
+    responseHeaderP.classList.remove("neutralResponse");
 }

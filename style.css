@@ -89,21 +89,6 @@ input {
 
 input:focus { box-shadow: inset 0 -.5em 4.5em rgba(100,100,100,0.4), 0 .09em rgba(255,255,255,0.2); }
 
-.responses {
-  border-radius: .2em;
-  text-align: center;
-  display: none;
-  visibility: hidden;
-  margin-top: 2%;
-  margin-left: 7%;
-  width: 30%;
-  padding: 1%;
-  font-size: 1.2em;
-  background-color: rgba(48, 37, 48, .5);
-  color: white;
-  box-shadow: inset 0 -.5em 4.5em rgba(100,100,100,0.2),0 .06em rgba(255,255,255,0.2);
-}
-
 .question,.answer{
   margin-left: -5%;
   border-radius: .2em;
@@ -265,4 +250,42 @@ input:focus { box-shadow: inset 0 -.5em 4.5em rgba(100,100,100,0.4), 0 .09em rgb
   font-size: 1.2em;
   margin: 5% 0 0 0;
   font-weight: bold;
+}
+
+#copyAliasButton{
+  color:white;
+  margin-left: 16%;
+  padding: 3%;
+}
+
+#responseHeader{
+  font-size: 1.4em;
+  margin: 1%;
+  display: none;
+  visibility: hidden;
+}
+
+#responseMessage{
+  display: none;
+  visibility: hidden;
+}
+
+#responseDiv {
+  border-radius: .2em;
+  text-align: center;
+  display: none;
+  visibility: hidden;
+  margin-top: 2%;
+  margin-left: 7%;
+  margin-bottom: 2%;
+  width: 30%;
+  padding: 1%;
+  font-size: 1em;
+  background-color: rgba(48, 37, 48, .5);
+  color: white;
+  box-shadow: inset 0 -.5em 4.5em rgba(100,100,100,0.2),0 .06em rgba(255,255,255,0.2);
+}
+
+#currentDate {
+  text-align: center;
 }
