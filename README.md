@@ -43,9 +43,17 @@ Pull requests are welcome and will be reviewed and merged in a case-by-case basi
 
 ## To-Do's
  - Add an edit alias feature.
+ - Send a confirmation email upon alias creation. This will likely require an additional API call.
 
 ## Release Notes
 You'll find information about each release below.
+
+#### Version 2.2
+* Added "Copy Alias" button for convenience.
+* Added countdown timer on successful alias creation.
+* Changed Response HTML element to be a `<div>` instead of a `<p>`. — This also makes the spacing a little bit better and allows for the new elements (timer and button) to be added.
+* Fixed a typo in the "invalid alias" message.
+* Added emojis ... because that's what the kids are into now-a-days.
 
 #### Version 2.1
 * Updated expected API responses.
