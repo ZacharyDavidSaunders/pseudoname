@@ -48,6 +48,9 @@ Pull requests are welcome and will be reviewed and merged in a case-by-case basi
 ## Release Notes
 You'll find information about each release below.
 
+#### Version 2.3
+* Added an rudimentary CAPTCHA system to address issue #9.
+
 #### Version 2.2
 * Added "Copy Alias" button for convenience.
 * Added countdown timer on successful alias creation.
