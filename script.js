@@ -1,7 +1,8 @@
-var version = "v2.2";
+var version = "v2.3";
 var api = 'https://pseudoname-api.herokuapp.com';
 var pseudonameRepo = 'https://github.com/ZacharyDavidSaunders/pseudoname/';
 var pseudonameApiRepo = 'https://github.com/ZacharyDavidSaunders/PseudonameAPI/'
+var captchaIndex;
 
 function displayVersion(){
     var xhttp = new XMLHttpRequest();
@@ -25,6 +26,7 @@ function displayVersion(){
 function createAlias(){
   hideAllResponses();
   if(verifyInput()){
+    refreshCaptcha();
     var realEmailInput = document.getElementById("realEmail");
     var aliasInput = document.getElementById("alias");
     var xhttp = new XMLHttpRequest();
@@ -56,6 +58,7 @@ function createAlias(){
 function deleteAlias(){
     hideAllResponses();
     if(verifyInput()){
+        refreshCaptcha();
         var realEmailInput = document.getElementById("realEmail");
         var aliasInput = document.getElementById("alias");
         var xhttp = new XMLHttpRequest();
@@ -87,13 +90,19 @@ function deleteAlias(){
 function verifyInput(){
   var realEmailInput = document.getElementById("realEmail");
   var aliasInput = document.getElementById("alias");
+  var userCaptchaSolutionInput = document.getElementById("userCaptchaSolutionInput");
 
   var emailVerificationRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  if(realEmailInput.value && aliasInput.value){
+  if(realEmailInput.value && aliasInput.value && userCaptchaSolutionInput.value){
     if(emailVerificationRegex.test(realEmailInput.value.toLowerCase())){
       if(!emailVerificationRegex.test(aliasInput.value.toLowerCase()) && !(aliasInput.value.includes('@'))){
-        return true;
+        if(verifyCaptcha()){
+            return true;
+        }else{
+            showResponse("Error: Incorrect CAPTCHA Response", "The CAPTCHA response that you entered is invalid. Please try again.", 2);
+            return false;
+        }  
       }else{
         showResponse("Error: Invalid Alias", "The alias that you entered is invalid, you don't need to include the '@' character, nor any characters after it. Please try again.", 2);
         return false;
@@ -103,10 +112,9 @@ function verifyInput(){
       return false;
     }
   }else{
-    showResponse("Error: Missing Information" , "Both a real email and an email alias must be entered to proceed.", 2);
+    showResponse("Error: Missing Information" , "A real email, an email alias, and a CAPTCHA response must be entered to proceed.", 2);
     return false;
   }
-  return true;
 }
 
 function showResponse(responseHeader,responseText,statusCode){
@@ -115,7 +123,6 @@ function showResponse(responseHeader,responseText,statusCode){
   var responseMessageP = document.getElementById('responseMessage');
   var donationDiv = document.getElementById('donationDiv');
   var showDonation = false;
-  var showCopyAliasButton = false;
 
   if(statusCode == 1){
       responseHeaderP.classList.add("positiveResponse");
@@ -219,4 +226,32 @@ function resetHeaderColor(){
     responseHeaderP.classList.remove("positiveResponse");
     responseHeaderP.classList.remove("negativeResponse");
     responseHeaderP.classList.remove("neutralResponse");
+}
+
+function displayCaptcha(){
+    captchaIndex = Math.floor(Math.random()*10);
+    var captchaImage = document.createElement("img"); 
+    var captchaDiv = document.getElementById('captchaDiv');
+    var captchaImageSrc = './imgs/captcha/captcha'+captchaIndex+'.jpg';
+    captchaImage.src = captchaImageSrc;
+    captchaImage.id = 'captchaImage';
+    captchaDiv.appendChild(captchaImage);
+}
+
+function verifyCaptcha(){
+    var captchaAnswers = ["+B5kww9","Au7eWm9","RAj42Pb","X6Mjjf3","cvUtch9","TyD237L","h@R#yL3","&C)XAw4","!f73K88","?WeL5C?"];
+    var userCaptchaSolutionInput = document.getElementById("userCaptchaSolutionInput");
+    if(userCaptchaSolutionInput.value == captchaAnswers[captchaIndex]){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function refreshCaptcha(){
+    captchaIndex = Math.floor(Math.random()*10);
+    captchaImage = document.getElementById("captchaImage");
+    captchaImage.src = './imgs/captcha/captcha'+captchaIndex+'.jpg';
+    var userCaptchaSolutionInput = document.getElementById("userCaptchaSolutionInput");
+    userCaptchaSolutionInput.innerHTML = '';
 }

@@ -10,7 +10,7 @@
      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-132887033-1"></script>
      <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-132887033-1');</script>
   </head>
-  <body onload="displayVersion();">
+  <body onload="displayVersion(); displayCaptcha();">
     <div>
       <h1>Pseudoname</h1>
       <h2>Because your email deserves protection too!</h2>
@@ -34,6 +34,9 @@
         <input id="realEmail" type="email" placeholder="Your real email address" required="required" />
         <input id="alias" type="email" placeholder="Your email alias (@pseudoname.io)" required="required"/>
         <p id="domainIdentification">@pseudoname.io</p>
+        <div id="captchaDiv">
+          <input id="userCaptchaSolutionInput" type="text" maxlength="7" placeholder="Enter CAPTCHA below">
+        </div>
         <button id="createAliasButton" onclick="createAlias()">Create Alias</button>
         <button id="deleteAliasButton" onclick="deleteAlias()">Delete Alias</button>
         <div id="responseDiv">
