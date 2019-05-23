@@ -48,6 +48,12 @@ Pull requests are welcome and will be reviewed and merged in a case-by-case basi
 ## Release Notes
 You'll find information about each release below.
 
+#### Version 2.4
+* Updated client to support PseudonameAPI version 1.4 (see issue #10).
+  * Updated API method usage.
+  * Added rate-limiting support.
+* Removed CAPTCHA system as the API now contains a rate-limiting feature, making the CAPTCHA system obsolete.
+
 #### Version 2.3
 * Added an rudimentary CAPTCHA system to address issue #9.
 
