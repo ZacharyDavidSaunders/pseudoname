@@ -1,8 +1,7 @@
-var version = "v2.3";
+var version = "v2.4";
 var api = 'https://pseudoname-api.herokuapp.com';
 var pseudonameRepo = 'https://github.com/ZacharyDavidSaunders/pseudoname/';
 var pseudonameApiRepo = 'https://github.com/ZacharyDavidSaunders/PseudonameAPI/'
-var captchaIndex;
 
 function displayVersion(){
     var xhttp = new XMLHttpRequest();
@@ -26,12 +25,11 @@ function displayVersion(){
 function createAlias(){
   hideAllResponses();
   if(verifyInput()){
-    refreshCaptcha();
     var realEmailInput = document.getElementById("realEmail");
     var aliasInput = document.getElementById("alias");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
-         if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && this.status == 200) {
              var data = this.responseText;
              var json = JSON.parse(data);
              var message = json['message'];
@@ -42,13 +40,15 @@ function createAlias(){
              }else{
                  showResponse("Error: Unknown API Response", "An unexpected error occurred. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
              }
+         }else if(this.status == 429){
+           showResponse('Error: Creation denied.', 'The creation request has been refused due to a suspicious level of activity from this IP address. Please try again in 60 minutes.', 2);     
          }else if (this.readyState == 4){
            showResponse("Error: Something's Wrong", "Something went wrong when creating your alias. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
          }else{
            showResponse("Loading", "Please wait...", 4);
          }
     };
-    xhttp.open("GET", api+'/add/?'+
+    xhttp.open("POST", api+'/add/?'+
     "alias="+aliasInput.value +
     "&realEmail="+realEmailInput.value, true);
     xhttp.send();
@@ -58,7 +58,6 @@ function createAlias(){
 function deleteAlias(){
     hideAllResponses();
     if(verifyInput()){
-        refreshCaptcha();
         var realEmailInput = document.getElementById("realEmail");
         var aliasInput = document.getElementById("alias");
         var xhttp = new XMLHttpRequest();
@@ -74,13 +73,15 @@ function deleteAlias(){
                 }else if (message === 'Error: Deletion denied. The provided alias is not owned by the provided email.'){
                     showResponse('Error: Deletion denied.', 'According to our records, you do not own the alias you wish to delete. Please enter the alias\' corresponding email address to delete it.', 2);
                 }
+            }else if(this.status == 429){
+                showResponse('Error: Deletion denied.', 'The deletion request has been refused due to a suspicious level of activity from this IP address. Please try again in 60 minutes.', 2);    
             }else if (this.readyState == 4){
                 showResponse("Error: Something's Wrong", "Something went wrong when deleting your alias. Please try again later. If this problem persists, please <a href=\"contact.html\">get in touch with us.</a>", 2);
             }else{
                 showResponse("Loading", "Please wait...", 4);
             }
         };
-        xhttp.open("GET", api+'/delete/?'+
+        xhttp.open("DELETE", api+'/delete/?'+
             "alias="+aliasInput.value +
             "&realEmail="+realEmailInput.value, true);
         xhttp.send();
@@ -90,19 +91,13 @@ function deleteAlias(){
 function verifyInput(){
   var realEmailInput = document.getElementById("realEmail");
   var aliasInput = document.getElementById("alias");
-  var userCaptchaSolutionInput = document.getElementById("userCaptchaSolutionInput");
 
   var emailVerificationRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  if(realEmailInput.value && aliasInput.value && userCaptchaSolutionInput.value){
+  if(realEmailInput.value && aliasInput.value){
     if(emailVerificationRegex.test(realEmailInput.value.toLowerCase())){
       if(!emailVerificationRegex.test(aliasInput.value.toLowerCase()) && !(aliasInput.value.includes('@'))){
-        if(verifyCaptcha()){
-            return true;
-        }else{
-            showResponse("Error: Incorrect CAPTCHA Response", "The CAPTCHA response that you entered is invalid. Please try again.", 2);
-            return false;
-        }  
+        return true;
       }else{
         showResponse("Error: Invalid Alias", "The alias that you entered is invalid, you don't need to include the '@' character, nor any characters after it. Please try again.", 2);
         return false;
@@ -112,7 +107,7 @@ function verifyInput(){
       return false;
     }
   }else{
-    showResponse("Error: Missing Information" , "A real email, an email alias, and a CAPTCHA response must be entered to proceed.", 2);
+    showResponse("Error: Missing Information" , "A real email and email alias must be entered to proceed.", 2);
     return false;
   }
 }
@@ -226,32 +221,4 @@ function resetHeaderColor(){
     responseHeaderP.classList.remove("positiveResponse");
     responseHeaderP.classList.remove("negativeResponse");
     responseHeaderP.classList.remove("neutralResponse");
-}
-
-function displayCaptcha(){
-    captchaIndex = Math.floor(Math.random()*10);
-    var captchaImage = document.createElement("img"); 
-    var captchaDiv = document.getElementById('captchaDiv');
-    var captchaImageSrc = './imgs/captcha/captcha'+captchaIndex+'.jpg';
-    captchaImage.src = captchaImageSrc;
-    captchaImage.id = 'captchaImage';
-    captchaDiv.appendChild(captchaImage);
-}
-
-function verifyCaptcha(){
-    var captchaAnswers = ["+B5kww9","Au7eWm9","RAj42Pb","X6Mjjf3","cvUtch9","TyD237L","h@R#yL3","&C)XAw4","!f73K88","?WeL5C?"];
-    var userCaptchaSolutionInput = document.getElementById("userCaptchaSolutionInput");
-    if(userCaptchaSolutionInput.value == captchaAnswers[captchaIndex]){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function refreshCaptcha(){
-    captchaIndex = Math.floor(Math.random()*10);
-    captchaImage = document.getElementById("captchaImage");
-    captchaImage.src = './imgs/captcha/captcha'+captchaIndex+'.jpg';
-    var userCaptchaSolutionInput = document.getElementById("userCaptchaSolutionInput");
-    userCaptchaSolutionInput.innerHTML = '';
 }
